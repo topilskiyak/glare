@@ -1,0 +1,93 @@
+%======================================================================
+% Document Settings
+
+\documentclass[a4paper, 12pt]{article}
+
+\textwidth=440pt
+\textheight=620pt
+\hoffset=-43pt
+\voffset=-50pt
+\headsep=25pt
+\footskip=40pt
+
+%======================================================================
+% Packages
+
+% Languages
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian, english]{babel}
+
+% Maths
+\usepackage{amsmath}
+
+% Latex Settings
+\usepackage{enumitem}
+\setlist{
+    nosep
+}
+
+% URLs
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+%======================================================================
+\begin{document}
+%======================================================================
+% Title
+
+\title{
+Glare
+\\
+\Large{Research Notes}
+\\
+\author{
+Topilskiy Artem\\
+Yandex
+}
+}
+\maketitle
+
+%======================================================================
+\section{Ideas}
+
+\begin{itemize}
+\item learn about optical flow in ML
+\item search for more glare-related papers
+\end{itemize}
+
+%======================================================================
+\section{Backlog}
+
+\subsection{Things to read}
+\begin{enumerate}
+
+\item
+Name: Single Image Reflection Removal Using Deep Encoder-Decoder Network \\
+Link: \url{https://arxiv.org/abs/1802.00094} \\
+Note: Учимся на синтетике удалять двойные отражения, это основа
+
+\item
+Name: Learning to See Through Obstructions \\
+Link: \url{https://arxiv.org/abs/2004.01180} \\
+Note: Учимся на синтетике, теперь видео, удаляем гораздо более сложные вещи
+
+\item
+Name: PhotoScan: Taking Glare-Free Pictures of Pictures \\
+Link: \url{https://ai.googleblog.com/2017/04/photoscan-taking-glare-free-pictures-of.html} \\
+Note: старая статья про удаление отражений с глянца
+
+\end{enumerate}
+
+%======================================================================
+\newpage
+\section{Paper Summary}
+
+%======================================================================
+\end{document}
+%======================================================================
