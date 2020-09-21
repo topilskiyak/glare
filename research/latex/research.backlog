@@ -1,0 +1,29 @@
+dataset - camera with glass + alignment afterwards?
+
+200910 Sync
+Main Idea: figure out architecture -> make hammer -> improve hammer
+Actions
+  Collect Dataset
+  Write Net, Dataloading, Training
+  Train, Eval (look at PSNR, real images)
+General
+  Colab should be enough
+Dataset
+  2 datasets: R (indoor?), T (netphoto?)
+  K = (ex) 3x3 kernel with 2 non-zero (2 reflections)
+  R: need to resize to 128x128? Too low-rez...
+  I: R,T -> I(float) -> I(uint8) -> I(float)
+  !: quality-control I so that it looks realistic
+  Q: gamma-correction not needed?
+  Q: VGG loss not needed?
+  QR: generalises to N reflections?
+  I+: using different ColourSpace - LAB > RGB?
+  I+: MAE > MSE?; quantize colours into 128 boxes = classification task?
+  I+: generate K using sketch-draw lines
+Further
+  Going Mobile: Unreal Engine; MediaPipe
+
+Papers: Downloads
+> reflection5
+> Wen_Single_Image_Reflection_Removal_Beyond_Linearity_CVPR_2019_paper
+  
