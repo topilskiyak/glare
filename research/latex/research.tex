@@ -18,6 +18,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[russian, english]{babel}
 
+% Colours
+\usepackage[dvipsnames]{xcolor}
+
 % Maths
 \usepackage{amsmath}
 
@@ -33,7 +36,8 @@
     colorlinks=true,
     linkcolor=blue,
     filecolor=magenta,      
-    urlcolor=cyan,
+    urlcolor=blue,
+    citecolor=ForestGreen,
 }
 
 %======================================================================
@@ -42,18 +46,42 @@
 % Title
 
 \title{
-Glare
+GLARE
 \\
 \Large{Research Notes}
 \\
 \author{
 Topilskiy Artem\\
-Yandex
+Dep. Data Analysis, MIPT
 }
 }
 \maketitle
 
 %======================================================================
+\section{Paper Summaries}
+
+\subsection{Single Image Reflection Removal Using Deep Encoder-Decoder Network \cite{SIRR1802}}
+\textbf{Link} \cite{SIRR1802} \url{https://arxiv.org/abs/1802.00094}
+~\\\textbf{Idea} End-to-end SIRR using UNet-like CNN
+~\\\textbf{Results} PSNR: 29.08 (val), 18.70 \cite{SIRRBench17}
+~\\\textbf{Dataset} $\{(I, \alpha T)\} : I = \alpha T + \beta R * G * K$\\
+where $T$ - transmission, $\alpha$ - transmission coefficient; $R$ - reflection, $G, K$ - gaussian blurs, simulating the defocus effect ($G$) and double reflection ($K$). $T, R$ taken in true intensity values (reversing \href{https://www.cambridgeincolour.com/tutorials/gamma-correction.htm}{$\gamma$-compression}).
+~\\\textbf{Architecture} $cccccc \longrightarrow \searrow cc\searrow cc\searrow ccdd \nearrow dd \nearrow dd \nearrow \longrightarrow dddddd$ \\
+$\text{Feature Extraction CNN}
+\longrightarrow \text{Reflection Removal UNet}
+\longrightarrow \text{Transmission Restoration CNN}$\\
+All $(de)conv$ layers are non-padded, 64-filter, 5x5 (except first 2 and last 2 which are 9x9), followed by ReLU. The CNN parts each have 6 $(de)convs$. The UNet part consists of 6 $convs$ and 6 $deconvs$ arranged in 3 levels - skip connections are every 2 $convs$ on the way "down". Skip connection additions are performed on feature maps before ReLU. No pooling layers are used, convolutions are not padded.
+~\\\textbf{Loss Function} $L = L_{l_2} + \lambda L_{VGG}$\\
+$L_{l_2} = || F(I) - \alpha T ||^2_2$, $L_{VGG} = \sum_{i=1}^M \frac{1}{H_i W_i}|| \phi_i(F(I)) - \phi_i(\alpha T) ||^2_2$, $\phi_i$ is the feature map obtained by the i-th convolution after activation within VGG19.
+~\\\textbf{Training}\\
+\textit{Dataset} (66k/22k train/test)
+Images: 2.3k \cite{IndoorScenes} + 2.6k \cite{HelLooks}, reflections - natural landscapes and malls. $T$ is resized 128x128, $R$ is cropped and resized 128x128. $\gamma = 2.2, \alpha \sim U[0.75, 0.8], \beta = 1 - \alpha, \sigma(G) \sim U[1,5]$, $K$ = kernel with 2 non-zero elements: $1 - \sqrt{\alpha}, \sqrt{\alpha} - \alpha$.\\
+\textit{Optimization} $\lambda=10^{-3}$, epochs=150, batch=64, Adam($\eta=10^-4, \beta_1=0.9$)\\
+\textit{Specs} Nvidia Titan X GPU, Tensorflow
+~\\\textbf{Extra Notes} No domain shift needed - sythetic data is enough for irl\\
+
+%======================================================================
+\newpage
 \section{Ideas}
 
 \begin{itemize}
@@ -66,11 +94,6 @@ Yandex
 
 \subsection{Things to read}
 \begin{enumerate}
-
-\item
-Name: Single Image Reflection Removal Using Deep Encoder-Decoder Network \\
-Link: \url{https://arxiv.org/abs/1802.00094} \\
-Note: Учимся на синтетике удалять двойные отражения, это основа
 
 \item
 Name: Learning to See Through Obstructions \\
@@ -86,8 +109,8 @@ Note: старая статья про удаление отражений с г
 
 %======================================================================
 \newpage
-\section{Paper Summary}
+\bibliographystyle{IEEEtran}
+\bibliography{research}
 
-%======================================================================
 \end{document}
 %======================================================================
